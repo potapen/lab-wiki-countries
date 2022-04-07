@@ -1,30 +1,14 @@
-import {useParams } from 'react-router-dom'
-import { useState, useEffect } from "react"
-import axios from 'axios'
+// import {Route, Routes} from 'react-router-dom'
+import {useParams } from 'react-router-dom';
 
-const CountryDetails = ({countries}) => {
-    let { alpha3Code } = useParams()
-    const [country, setCountry] = useState('empty')
-    useEffect(() =>
-    {
-        const getCountry = async () => {
-           const {data} = await axios.get(`https://ih-countries-api.herokuapp.com/countries/${alpha3Code}`)
-           console.log('data:', data)
-           setCountry(data)
-       }
-
-       getCountry()
-        
-    }, [alpha3Code])
-    
+const CountryDetailsStatic = ({countries}) => {
     const style ={
         width: '30%',
     }
-
-    console.log('-----------------------------------------')
-    console.log(country)
+    let { alpha3Code } = useParams()
+    const country = countries.find(c => (c.alpha3Code === alpha3Code))
+    
     return(
-        ((country!=='empty') && (
         <div className="col-7">
             <h1>{country.name.common}</h1>
             <table className="table">
@@ -55,7 +39,6 @@ const CountryDetails = ({countries}) => {
               </tbody>
             </table>
         </div>
-        ))
     )
 }
-export default CountryDetails
+export default CountryDetailsStatic
